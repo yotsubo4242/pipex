@@ -20,6 +20,15 @@
 # include <ctype.h>
 # include <strings.h>
 # include <limits.h>
+# include <stdarg.h>
+
+
+// for ft_printf
+# define UP 0
+# define LOW 1
+# define ADR 2
+
+typedef unsigned long long	t_ull;
 
 typedef struct s_list
 {
@@ -116,5 +125,16 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 void	*map_and_free(void *res, void *for_free);
+
+// ↓ for ft_printf
+
+void	ft_putuint_fd(unsigned int un, int fd);
+char	*ft_ull_to_hex(t_ull un, int flag);
+int		__printf_puthex(t_ull un, int flag);
+int		__printf_putstr(char *s);
+int		__printf_putchar(int n);
+int		__printf_putuint(unsigned int un);
+int		__printf_putint(int n);
+int		ft_printf(const char *format, ...);
 
 #endif
