@@ -14,10 +14,13 @@
 typedef int t_bool;
 
 typedef struct s_data {
-	int	cmd_num;
 	int infile_fd;
 	int	outfile_fd;
 	char **cmds;
 }	t_data;
+
+void	free_cmds(char **cmds);
+
+t_data	*make_struct(int argc, char *argv[]);
 
 #endif

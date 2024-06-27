@@ -1,7 +1,26 @@
 #include "../pipex.h"
 #include "libft.h"
 
-t_bool	get_fds(int argc, char *argv[], t_data *data)
+void	free_cmds(char **cmds)
+{
+	size_t	i;
+
+	i = 0;
+	while (cmds[i])
+		free(cmds[i++]);
+	free(cmds);
+}
+
+static t_data	*err_return(t_data *data)
+{
+	if (data && data->cmds)
+		free_cmds(data->cmds);
+	if (data)
+		free(data);
+	return (NULL);
+}
+
+t_bool	get_fds(char *argv[], t_data *data)
 {
 	int	ifd;
 	int	ofd;
@@ -12,10 +31,10 @@ t_bool	get_fds(int argc, char *argv[], t_data *data)
 		ft_printf("ERROR: can't opent the file: %s\n", argv[1]);
 		return (FALSE);
 	}
-	ofd = open(argv[argc - 1], O_WRONLY);
+	ofd = open(argv[4], O_WRONLY);
 	if (ofd < 0)
 	{
-		ft_printf("ERROR: can't opent the file: %s\n", argv[argc - 1]);
+		ft_printf("ERROR: can't opent the file: %s\n", argv[4]);
 		return (FALSE);
 	}
 	data->infile_fd = ifd;
@@ -23,12 +42,37 @@ t_bool	get_fds(int argc, char *argv[], t_data *data)
 	return (TRUE);
 }
 
+static t_bool get_cmds(char *argv[], t_data *data)
+{
+	data->cmds = (char **)malloc(sizeof(char *) * 2);
+	if (!data->cmds)
+		return (FALSE);
+	ft_bzero(data->cmds, sizeof(char *) * 2);
+	data->cmds[0] = ft_strdup(argv[2]);
+	if (!data->cmds[0])
+		return (FALSE);
+	data->cmds[1] = ft_strdup(argv[3]);
+	if (!data->cmds[1])
+	{
+		free(data->cmds[0]);
+		return (FALSE);
+	}
+	return (TRUE);
+}
+
 t_data	*make_struct(int argc, char *argv[])
 {
 	t_data	*data;
 
-	if (argc < 5)
-		return (NULL);
-	if (!get_fds(argc, argv, data))
-		return (0);
+	if (argc != 5)
+		return (err_return(NULL));
+	data = (t_data *)malloc(sizeof(t_data));
+	if (!data)
+		return (err_return(NULL));
+	ft_bzero(data, sizeof(t_data));
+	if (!get_fds(argv, data))
+		return (err_return(data));
+	if (!get_cmds(argv, data))
+		return (err_return(data));
+	return (data);
 }
