@@ -3,11 +3,10 @@
 
 void	free_cmds(char **cmds)
 {
-	size_t	i;
-
-	i = 0;
-	while (cmds[i])
-		free(cmds[i++]);
+	if (cmds[0])
+		free(cmds[0]);
+	if (cmds[1])
+		free(cmds[1]);
 	free(cmds);
 }
 
