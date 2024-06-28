@@ -1,13 +1,27 @@
 #include "../pipex.h"
 #include "libft.h"
 
-void	free_cmds(char **cmds)
+void	free_cmds(char ***cmds)
 {
+	if (!cmds)
+		return ;
 	if (cmds[0])
-		free(cmds[0]);
+		free_strs(cmds[0]);
 	if (cmds[1])
-		free(cmds[1]);
+		free_strs(cmds[1]);
 	free(cmds);
+}
+
+void	free_strs(char **strs)
+{
+	size_t	i;
+	if (strs)
+	{
+		i = 0;
+		while (strs[i])
+			free(strs[i++]);
+		free(strs);
+	}
 }
 
 static t_data	*err_return(t_data *data)
@@ -43,17 +57,17 @@ t_bool	get_fds(char *argv[], t_data *data)
 
 static t_bool get_cmds(char *argv[], t_data *data)
 {
-	data->cmds = (char **)malloc(sizeof(char *) * 2);
+	data->cmds = (char ***)malloc(sizeof(char **) * 2);
 	if (!data->cmds)
 		return (FALSE);
 	ft_bzero(data->cmds, sizeof(char *) * 2);
-	data->cmds[0] = ft_strdup(argv[2]);
+	data->cmds[0] = ft_split(argv[2], ' ');
 	if (!data->cmds[0])
 		return (FALSE);
-	data->cmds[1] = ft_strdup(argv[3]);
+	data->cmds[1] = ft_split(argv[3], ' ');
 	if (!data->cmds[1])
 	{
-		free(data->cmds[0]);
+		free_strs(data->cmds[0]);
 		return (FALSE);
 	}
 	return (TRUE);

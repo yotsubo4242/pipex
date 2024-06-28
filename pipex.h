@@ -10,16 +10,22 @@
 # define FALSE 0
 
 # define INPUT_ERR -1
+# define CMD_NOT_FOUND -2
 
 typedef int t_bool;
 
 typedef struct s_data {
-	int infile_fd;
-	int	outfile_fd;
-	char **cmds;
+	int		infile_fd;
+	int		outfile_fd;
+	char	***cmds;
+	char	**cmd_paths;
 }	t_data;
 
-void	free_cmds(char **cmds);
+void	free_cmds(char ***cmds);
+
+void	free_strs(char **strs);
+
+char	**free_paths(char **paths, int paths_num);
 
 t_data	*make_struct(int argc, char *argv[]);
 

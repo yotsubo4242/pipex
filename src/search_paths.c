@@ -1,7 +1,7 @@
 #include "libft.h"
 #include "../pipex.h"
 
-static char	**free_paths(char **paths, int paths_num)
+char	**free_paths(char **paths, int paths_num)
 {
 	size_t	i;
 
@@ -76,7 +76,7 @@ static char	**adjust_paths(char **paths)
 	return (paths);
 }
 
-t_bool	get_abs_paths(t_data *data, char **paths)
+static t_bool	get_abs_paths(t_data *data, char **paths)
 {
 	t_bool	first_cmd_flag;
 	t_bool	second_cmd_flag;
@@ -85,12 +85,16 @@ t_bool	get_abs_paths(t_data *data, char **paths)
 
 	first_cmd_flag = FALSE;
 	second_cmd_flag = FALSE;
+	data->cmd_paths = (char **)malloc(sizeof(char *) * 3);
+	if (!(data->cmd_paths))
+		return (FALSE);
+	ft_bzero(data->cmd_paths, sizeof(char *) * 3);
 	while (*paths)
 	{
-		tmp1 = ft_strjoin(*paths, data->cmds[0]);
+		tmp1 = ft_strjoin(*paths, data->cmds[0][0]);
 		if (!tmp1)
 			return (FALSE);
-		tmp2 = ft_strjoin(*paths, data->cmds[1]);
+		tmp2 = ft_strjoin(*paths, data->cmds[1][0]);
 		if (!tmp2)
 		{
 			free(tmp1);
@@ -99,12 +103,12 @@ t_bool	get_abs_paths(t_data *data, char **paths)
 		if (!access(tmp1, X_OK))
 		{
 			first_cmd_flag = TRUE;
-			data->cmds[0] = map_and_free(ft_strjoin(*paths, data->cmds[0]), data->cmds[0]);
+			data->cmd_paths[0] = map_and_free(ft_strjoin(*paths, data->cmds[0][0]), data->cmd_paths[0]);
 		}
 		if (!access(tmp2, X_OK))
 		{
 			second_cmd_flag = TRUE;
-			data->cmds[1] = map_and_free(ft_strjoin(*paths, data->cmds[1]), data->cmds[1]);
+			data->cmd_paths[1] = map_and_free(ft_strjoin(*paths, data->cmds[1][0]), data->cmd_paths[1]);
 		}
 		free(tmp1);
 		free(tmp2);
@@ -125,8 +129,6 @@ t_bool	search_paths(t_data *data)
 	paths = adjust_paths(paths);
 	if (!paths)
 		return (FALSE);
-	for (int i = 0; paths[i]; i++)
-		printf("paths[%d]: %s\n", i, paths[i]);
 	if (!get_abs_paths(data, paths))
 	{
 		free_paths(paths, get_paths_num(paths));
