@@ -25,6 +25,10 @@ int	main(int argc, char *argv[])
 		return (err_return(INPUT_ERR));
 	printf("cmds[0]: %s\n", data->cmds[0]);
 	printf("cmds[1]: %s\n", data->cmds[1]);
+	if (!search_paths(data))
+		printf("FALSE!!\n");
+	printf("cmds[0]: %s\n", data->cmds[0]);
+	printf("cmds[1]: %s\n", data->cmds[1]);
 	free_data(data);
 	return (0);
 }
