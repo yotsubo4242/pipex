@@ -76,6 +76,9 @@ static char	**adjust_paths(char **paths)
 	return (paths);
 }
 
+// [!] need to modify
+// - if the command line args are definitly path of commands.
+
 static t_bool	get_abs_paths(t_data *data, char **paths)
 {
 	t_bool	first_cmd_flag;

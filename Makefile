@@ -1,5 +1,5 @@
 NAME = pipex
-SRCS = ./src/pipex.c \
+SRCS = ./src/main.c \
 		./src/make_struct.c \
 		./src/search_paths.c
 OBJS = $(SRCS:.c=.o)
@@ -16,6 +16,9 @@ $(NAME): $(OBJS) $(LIBFT)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+test: $(NAME)
+	./$(NAME) infile.txt "/bin/ls" "grep -v" outfile.txt
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)

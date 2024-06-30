@@ -9,8 +9,14 @@
 # define TRUE 1
 # define FALSE 0
 
-# define INPUT_ERR -1
-# define CMD_NOT_FOUND -2
+typedef enum e_err {
+	ERR_INPUT = -1,
+	ERR_CMD_FIND = -2,
+	ERR_FORK = -3,
+	ERR_PIPE = -4,
+	ERR_DUP2 = -5,
+	ERR_CLOSE = -6
+} t_err;
 
 typedef int t_bool;
 
