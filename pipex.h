@@ -15,7 +15,8 @@ typedef enum e_err {
 	ERR_FORK = -3,
 	ERR_PIPE = -4,
 	ERR_DUP2 = -5,
-	ERR_CLOSE = -6
+	ERR_CLOSE = -6,
+	ERR_EXECVE = -7
 } t_err;
 
 typedef int t_bool;
@@ -36,5 +37,7 @@ char	**free_paths(char **paths, int paths_num);
 t_data	*make_struct(int argc, char *argv[]);
 
 t_bool	search_paths(t_data *data);
+
+int		do_cmds(t_data *data);
 
 #endif

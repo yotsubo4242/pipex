@@ -1,7 +1,8 @@
 NAME = pipex
 SRCS = ./src/main.c \
 		./src/make_struct.c \
-		./src/search_paths.c
+		./src/search_paths.c \
+		./src/do_cmds.c
 OBJS = $(SRCS:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
@@ -18,7 +19,7 @@ $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 test: $(NAME)
-	./$(NAME) infile.txt "/bin/ls" "grep -v" outfile.txt
+	./$(NAME) infile.txt ls "wc -l" outfile.txt
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
