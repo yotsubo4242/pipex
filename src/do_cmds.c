@@ -6,12 +6,15 @@
 /*   By: yotsubo <y.otsubo.886@ms.saitama-u.ac.j    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:24:45 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/07/01 17:53:22 by yotsubo          ###   ########.fr       */
+/*   Updated: 2024/07/01 17:59:55 by yotsubo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 #include "libft.h"
+
+// [!] need to modify
+// - close pipe_fsd when error occurred.
 
 void	first_cmd_prc(t_data *data, int *pipe_fds, char **environ)
 {

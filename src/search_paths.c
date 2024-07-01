@@ -13,6 +13,9 @@
 #include "libft.h"
 #include "../pipex.h"
 
+// [!] need to modify
+// - if the command line args are definitly path of commands.
+
 char	**free_paths(char **paths, int paths_num)
 {
 	size_t	i;
@@ -87,9 +90,6 @@ static char	**adjust_paths(char **paths)
 	}
 	return (paths);
 }
-
-// [!] need to modify
-// - if the command line args are definitly path of commands.
 
 static t_bool	get_abs_paths(t_data *data, char **paths)
 {

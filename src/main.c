@@ -13,6 +13,10 @@
 #include "../pipex.h"
 #include "libft.h"
 
+// [!] need to modify
+// - close fds before program finish.
+// - adjust error message.
+
 // __attribute__((destructor))
 // static void destructor() {
 //     system("leaks -q pipex");
