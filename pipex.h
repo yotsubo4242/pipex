@@ -5,6 +5,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
+# include <sys/wait.h>
 
 # define TRUE 1
 # define FALSE 0

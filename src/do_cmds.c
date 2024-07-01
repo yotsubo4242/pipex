@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_cmds.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yotsubo <y.otsubo.886@ms.saitama-u.ac.j    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:24:45 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/06/30 22:22:32 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/07/01 17:53:22 by yotsubo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ void	first_cmd_prc(t_data *data, int *pipe_fds, char **environ)
 	close(pipe_fds[0]);
 	close(1);
 	if (dup2(pipe_fds[1], 1) < 0)
+		exit(ERR_DUP2);
+	close(0);
+	if (dup2(data->infile_fd, 0) < 0)
 		exit(ERR_DUP2);
 	if (execve(data->cmd_paths[0], data->cmds[0], environ) < 0)
 		exit(ERR_EXECVE);
@@ -41,6 +44,9 @@ void	second_cmd_prc(t_data *data, char **environ)
 		close(pipe_fds[1]);
 		close(0);
 		if (dup2(pipe_fds[0], 0) < 0)
+			exit(ERR_DUP2);
+		close(1);
+		if (dup2(data->outfile_fd, 1) < 0)
 			exit(ERR_DUP2);
 		if (execve(data->cmd_paths[1], data->cmds[1], environ) < 0)
 			exit(ERR_EXECVE);
