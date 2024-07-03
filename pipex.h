@@ -40,6 +40,6 @@ t_data	*make_struct(int argc, char *argv[]);
 
 t_bool	search_paths(t_data *data);
 
-int		do_cmds(t_data *data);
+int		do_cmds(t_data *data, char **argv);
 
 #endif

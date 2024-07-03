@@ -59,7 +59,7 @@ int	main(int argc, char *argv[])
 		return (err_return(NULL, ERR_INPUT));
 	if (!search_paths(data))
 		return (err_return(data, ERR_CMD_FIND));
-	cmds_res = do_cmds(data);
+	cmds_res = do_cmds(data, argv);
 	if (cmds_res < 0)
 		return (err_return(data, cmds_res));
 	free_data(data);
