@@ -6,6 +6,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+# include <errno.h>
 
 # define TRUE 1
 # define FALSE 0

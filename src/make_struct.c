@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+// [!]need to fix
+// - openはforkした後にやってそう...
+
 #include "../pipex.h"
 #include "libft.h"
 
@@ -45,26 +48,23 @@ static t_data	*err_return(t_data *data)
 	return (NULL);
 }
 
-t_bool	get_fds(char *argv[], t_data *data)
+static void	get_fds(char *argv[], t_data *data)
 {
 	int	ifd;
 	int	ofd;
 
 	ifd = open(argv[1], O_RDONLY);
 	if (ifd < 0)
-	{
-		ft_printf("ERROR: can't opent the file: %s\n", argv[1]);
-		return (FALSE);
-	}
-	ofd = open(argv[4], O_WRONLY);
+		ft_printf("%s: %s\n", argv[1], strerror(errno));
+	ofd = open(argv[4], O_WRONLY | O_CREAT, 0644);
 	if (ofd < 0)
 	{
-		ft_printf("ERROR: can't opent the file: %s\n", argv[4]);
-		return (FALSE);
+		ft_printf("%s: %s\n", argv[4], strerror(errno));
+		return ;
 	}
 	data->infile_fd = ifd;
 	data->outfile_fd = ofd;
-	return (TRUE);
+	return ;
 }
 
 static t_bool get_cmds(char *argv[], t_data *data)
@@ -95,8 +95,7 @@ t_data	*make_struct(int argc, char *argv[])
 	if (!data)
 		return (err_return(NULL));
 	ft_bzero(data, sizeof(t_data));
-	if (!get_fds(argv, data))
-		return (err_return(data));
+	get_fds(argv, data);
 	if (!get_cmds(argv, data))
 		return (err_return(data));
 	return (data);
