@@ -115,12 +115,12 @@ static t_bool	get_abs_paths(t_data *data, char **paths)
 			free(tmp1);
 			return (FALSE);
 		}
-		if (!access(tmp1, X_OK))
+		if (!access(tmp1, X_OK | F_OK))
 		{
 			first_cmd_flag = TRUE;
 			data->cmd_paths[0] = map_and_free(ft_strjoin(*paths, data->cmds[0][0]), data->cmd_paths[0]);
 		}
-		if (!access(tmp2, X_OK))
+		if (!access(tmp2, X_OK | F_OK))
 		{
 			second_cmd_flag = TRUE;
 			data->cmd_paths[1] = map_and_free(ft_strjoin(*paths, data->cmds[1][0]), data->cmd_paths[1]);

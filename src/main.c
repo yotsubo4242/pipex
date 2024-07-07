@@ -6,7 +6,7 @@
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 22:17:45 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/06/30 22:17:45 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:13:01 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,6 @@ static void	free_data(t_data *data)
 {
 	if (!data)
 		return ;
-	if (data->infile_fd)
-		close(data->infile_fd);
-	if (data->outfile_fd)
-		close(data->outfile_fd);
 	if (data->cmds)
 		free_cmds(data->cmds);
 	if (data->cmd_paths)
@@ -63,5 +59,6 @@ int	main(int argc, char *argv[])
 	if (cmds_res < 0)
 		return (err_return(data, cmds_res));
 	free_data(data);
+	// while (1){};
 	return (0);
 }

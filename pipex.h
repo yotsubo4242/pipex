@@ -24,8 +24,8 @@ typedef enum e_err {
 typedef int t_bool;
 
 typedef struct s_data {
-	int		infile_fd;
-	int		outfile_fd;
+	// int		infile_fd;
+	// int		outfile_fd;
 	char	***cmds;
 	char	**cmd_paths;
 }	t_data;

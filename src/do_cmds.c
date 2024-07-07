@@ -6,7 +6,7 @@
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:24:45 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/07/03 21:29:56 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/07/07 14:45:36 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	first_cmd_prc(t_data *data, char **argv, int *pipe_fds, char **envir
 	infile_fd = open(argv[1], O_RDONLY);
 	if (infile_fd < 0)
 		ft_printf("%s: %s\n", argv[1], strerror(errno));
-	if (dup2(data->infile_fd, 0) < 0)
+	if (dup2(infile_fd, 0) < 0)
 		exit(err_return(ERR_DUP2, NULL, &pipe_fds[1]));
 	if (execve(data->cmd_paths[0], data->cmds[0], environ) < 0)
 		exit(err_return(ERR_EXECVE, NULL, &pipe_fds[1]));
@@ -57,7 +57,7 @@ static void	second_cmd_prc(t_data *data, char **argv, char **environ)
 		wait(&status);
 		if (status == ERR_EXECVE || status == ERR_DUP2)
 			exit(err_return(status, &pipe_fds[0], &pipe_fds[1]));
-		outfile_fd = open(argv[4], O_WRONLY | O_CREAT, 0644);
+		outfile_fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (outfile_fd < 0)
 		{
 			ft_printf("%s: %s\n", argv[4], strerror(errno));
