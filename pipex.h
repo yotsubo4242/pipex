@@ -42,4 +42,6 @@ t_bool	search_paths(t_data *data);
 
 int		do_cmds(t_data *data, char **argv);
 
+void	check_fds(char **argv);
+
 #endif
