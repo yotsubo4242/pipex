@@ -34,14 +34,10 @@ static void	free_data(t_data *data)
 		free(data);
 }
 
-static int	err_return(t_data *data, int err_num)
+static int	err_return(t_data *data)
 {
 	if (data)
 		free_data(data);
-	if (err_num == ERR_INPUT)
-		ft_putendl_fd("ERROR: input", STDERR_FILENO);
-	if (err_num == ERR_CMD_FIND)
-		ft_putendl_fd("ERROR: command not found", STDERR_FILENO);
 	return (EXIT_FAILURE);
 }
 
@@ -52,14 +48,13 @@ int	main(int argc, char *argv[])
 
 	data = make_struct(argc, argv);
 	if (!data)
-		return (err_return(NULL, ERR_INPUT));
+		return (err_return(NULL));
 	if (!search_paths(data))
-		return (err_return(data, ERR_CMD_FIND));
+		return (err_return(data));
 	check_fds(argv);
 	cmds_res = do_cmds(data, argv);
 	if (cmds_res < 0)
-		return (err_return(data, cmds_res));
+		return (err_return(data));
 	free_data(data);
-	// while (1){};
 	return (0);
 }

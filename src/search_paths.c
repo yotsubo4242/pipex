@@ -144,7 +144,11 @@ static t_bool	get_abs_paths(t_data *data, char **paths)
 		free(tmp2);
 		paths++;
 	}
-	if (!first_cmd_flag || !second_cmd_flag)
+	if (!first_cmd_flag)
+		ft_printf("%s: %s\n", data->cmds[0][0], strerror(errno));
+	if (!second_cmd_flag)
+		ft_printf("%s: %s\n", data->cmds[1][0], strerror(errno));
+	if (!first_cmd_flag && !second_cmd_flag)
 		return (FALSE);
 	return (TRUE);
 }
