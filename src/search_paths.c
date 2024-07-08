@@ -55,7 +55,7 @@ static char	**get_paths(void)
 				return (NULL);
 			return (paths);
 		}
-		(*environ)++;
+		environ++;
 	}
 	return (NULL);
 }
@@ -88,33 +88,11 @@ static char	**adjust_paths(char **paths)
 	return (paths);
 }
 
-static t_bool	get_abs_paths(t_data *data, char **paths)
+static t_bool	get_abs_paths(t_data *data, char **paths, t_bool first_cmd_flag, t_bool second_cmd_flag)
 {
-	t_bool	first_cmd_flag;
-	t_bool	second_cmd_flag;
 	char	*tmp1;
 	char	*tmp2;
 
-	first_cmd_flag = FALSE;
-	second_cmd_flag = FALSE;
-	data->cmd_paths = (char **)malloc(sizeof(char *) * 3);
-	if (!(data->cmd_paths))
-		return (FALSE);
-	ft_bzero(data->cmd_paths, sizeof(char *) * 3);
-	if (!access(data->cmds[0][0], X_OK | F_OK))
-	{
-		first_cmd_flag = TRUE;
-		data->cmd_paths[0] = ft_strdup(data->cmds[0][0]);
-		if (!(data->cmd_paths[0]))
-			return (FALSE);
-	}
-	if (!access(data->cmds[1][0], X_OK | F_OK))
-	{
-		second_cmd_flag = TRUE;
-		data->cmd_paths[1] = ft_strdup(data->cmds[1][0]);
-		if (!(data->cmd_paths[1]))
-			return (FALSE);
-	}
 	while (*paths)
 	{
 		tmp1 = ft_strjoin(*paths, data->cmds[0][0]);
@@ -156,14 +134,42 @@ static t_bool	get_abs_paths(t_data *data, char **paths)
 t_bool	search_paths(t_data *data)
 {
 	char **paths;
+	t_bool	first_cmd_flag;
+	t_bool	second_cmd_flag;
 
-	paths = get_paths();
-	if (!paths)
+	data->cmd_paths = (char **)malloc(sizeof(char *) * 3);
+	if (!(data->cmd_paths))
 		return (FALSE);
+	ft_bzero(data->cmd_paths, sizeof(char *) * 3);
+	first_cmd_flag = FALSE;
+	second_cmd_flag = FALSE;
+	if (!access(data->cmds[0][0], X_OK | F_OK))
+	{
+		first_cmd_flag = TRUE;
+		data->cmd_paths[0] = ft_strdup(data->cmds[0][0]);
+		if (!(data->cmd_paths[0]))
+			return (FALSE);
+	}
+	if (!access(data->cmds[1][0], X_OK | F_OK))
+	{
+		second_cmd_flag = TRUE;
+		data->cmd_paths[1] = ft_strdup(data->cmds[1][0]);
+		if (!(data->cmd_paths[1]))
+			return (FALSE);
+	}
+	paths = get_paths();
+	if (!paths || !paths[0])
+	{
+		if (!(data->cmd_paths[0]))
+			ft_printf("command not found: %s\n", data->cmds[0][0]);
+		if (!(data->cmd_paths[1]))
+			ft_printf("command not found: %s\n", data->cmds[1][0]);
+		return (TRUE);
+	}
 	paths = adjust_paths(paths);
 	if (!paths)
 		return (FALSE);
-	if (!get_abs_paths(data, paths))
+	if (!get_abs_paths(data, paths, first_cmd_flag, second_cmd_flag))
 	{
 		free_paths(paths, get_paths_num(paths));
 		return (FALSE);
