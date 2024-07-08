@@ -27,6 +27,7 @@ void	free_cmds(char ***cmds)
 void	free_strs(char **strs)
 {
 	size_t	i;
+
 	if (strs)
 	{
 		i = 0;
@@ -45,7 +46,7 @@ static t_data	*err_return(t_data *data)
 	return (NULL);
 }
 
-static t_bool get_cmds(char *argv[], t_data *data)
+static t_bool	get_cmds(char *argv[], t_data *data)
 {
 	data->cmds = (char ***)malloc(sizeof(char **) * 2);
 	if (!data->cmds)
@@ -63,13 +64,14 @@ static t_bool get_cmds(char *argv[], t_data *data)
 	return (TRUE);
 }
 
-t_data	*make_struct(int argc, char *argv[])
+t_data	*check_input(int argc, char *argv[])
 {
 	t_data	*data;
 
 	if (argc != 5 || !argv[2][0] || !argv[3][0])
 	{
-		ft_printf("Usage: ./pipex <infile> <first cmd> <second cmd> <outfile>\n");
+		ft_printf("Usage: ./pipex <infile> <first cmd> \
+					<second cmd> <outfile>\n");
 		return (err_return(NULL));
 	}
 	data = (t_data *)malloc(sizeof(t_data));

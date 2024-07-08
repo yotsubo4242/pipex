@@ -13,15 +13,6 @@
 #include "../pipex.h"
 #include "libft.h"
 
-// [!] need to modify
-// - close fds before program finish. ✅
-// - adjust error message.
-
-// __attribute__((destructor))
-// static void destructor() {
-//     system("leaks -q pipex");
-// }
-
 static void	free_data(t_data *data)
 {
 	if (!data)
@@ -46,7 +37,7 @@ int	main(int argc, char *argv[])
 	t_data	*data;
 	int		cmds_res;
 
-	data = make_struct(argc, argv);
+	data = check_input(argc, argv);
 	if (!data)
 		return (err_return(NULL));
 	if (!search_paths(data))
@@ -56,6 +47,5 @@ int	main(int argc, char *argv[])
 	if (cmds_res < 0)
 		return (err_return(data));
 	free_data(data);
-	while (1) {}
 	return (0);
 }

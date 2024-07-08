@@ -6,15 +6,12 @@
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:24:45 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/07/08 20:57:14 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/07/08 21:46:17 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 #include "libft.h"
-
-// [!] need to modify
-// - close pipe_fsd when error occurred.
 
 static int	err_return(int err_num, int *fd_1, int *fd_2)
 {
@@ -27,7 +24,8 @@ static int	err_return(int err_num, int *fd_1, int *fd_2)
 	return (err_num);
 }
 
-static void	first_cmd_prc(t_data *data, char **argv, int *pipe_fds, char **environ)
+static void	first_cmd_prc(t_data *data, char **argv, \
+							int *pipe_fds, char **environ)
 {
 	int	infile_fd;
 
@@ -53,7 +51,8 @@ static void	second_cmd_prc(t_data *data, char **argv, char **environ)
 
 	if (pipe(pipe_fds) < 0)
 		exit(err_return(errno, NULL, NULL));
-	if ((child_fd = fork()) < 0)
+	child_fd = fork();
+	if (child_fd < 0)
 		exit(err_return(errno, &pipe_fds[0], &pipe_fds[1]));
 	if (child_fd > 0)
 	{
@@ -80,7 +79,8 @@ int	do_cmds(t_data *data, char **argv)
 	int			child_fd;
 	extern char	**environ;
 
-	if ((child_fd = fork()) < 0)
+	child_fd = fork();
+	if (child_fd < 0)
 		return (err_return(errno, NULL, NULL));
 	if (child_fd > 0)
 		wait(NULL);
