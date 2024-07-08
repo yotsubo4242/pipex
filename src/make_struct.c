@@ -67,7 +67,7 @@ t_data	*make_struct(int argc, char *argv[])
 {
 	t_data	*data;
 
-	if (argc != 5)
+	if (argc != 5 || !argv[2][0] || !argv[3][0])
 	{
 		ft_printf("Usage: ./pipex <infile> <first cmd> <second cmd> <outfile>\n");
 		return (err_return(NULL));
