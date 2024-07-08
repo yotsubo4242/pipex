@@ -6,7 +6,7 @@ SRCS = ./src/main.c \
 		./src/check_fds.c
 OBJS = $(SRCS:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
 INCLUDES = -I../ -I./libft
 LIBFT_PATH = ./libft
 LIBFT = $(LIBFT_PATH)/libft.a

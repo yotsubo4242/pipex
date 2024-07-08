@@ -6,7 +6,7 @@
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 22:17:45 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/07/07 14:51:19 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/07/08 21:02:40 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ int	main(int argc, char *argv[])
 	if (cmds_res < 0)
 		return (err_return(data));
 	free_data(data);
+	while (1) {}
 	return (0);
 }

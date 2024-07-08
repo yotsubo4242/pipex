@@ -126,8 +126,6 @@ static t_bool	get_abs_paths(t_data *data, char **paths, t_bool first_cmd_flag, t
 		ft_printf("%s: command not found\n", data->cmds[0][0]);
 	if (!second_cmd_flag)
 		ft_printf("%s: command not found\n", data->cmds[1][0]);
-	if (!first_cmd_flag && !second_cmd_flag)
-		return (FALSE);
 	return (TRUE);
 }
 
@@ -160,6 +158,8 @@ t_bool	search_paths(t_data *data)
 	paths = get_paths();
 	if (!paths || !paths[0])
 	{
+		if (paths)
+			free_paths(paths, get_paths_num(paths));
 		if (!(data->cmd_paths[0]))
 			ft_printf("command not found: %s\n", data->cmds[0][0]);
 		if (!(data->cmd_paths[1]))
