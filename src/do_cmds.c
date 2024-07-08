@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   do_cmds.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yotsubo <y.otsubo.886@ms.saitama-u.ac.j    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:24:45 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/07/07 17:12:41 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/07/08 13:44:45 by yotsubo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ static void	first_cmd_prc(t_data *data, char **argv, int *pipe_fds, char **envir
 
 	close(pipe_fds[0]);
 	if (dup2(pipe_fds[1], 1) < 0)
-		exit(err_return(ERR_DUP2, NULL, &pipe_fds[1]));
+		exit(err_return(errno, NULL, &pipe_fds[1]));
 	infile_fd = open(argv[1], O_RDONLY);
 	if (infile_fd < 0)
 		exit(err_return(0, NULL, &pipe_fds[1]));
 	if (dup2(infile_fd, 0) < 0)
-		exit(err_return(ERR_DUP2, &infile_fd, &pipe_fds[1]));
+		exit(err_return(errno, &infile_fd, &pipe_fds[1]));
 	if (execve(data->cmd_paths[0], data->cmds[0], environ) < 0)
-		exit(err_return(ERR_EXECVE, &infile_fd, &pipe_fds[1]));
+		exit(err_return(errno, &infile_fd, &pipe_fds[1]));
 }
 
 static void	second_cmd_prc(t_data *data, char **argv, char **environ)
@@ -51,24 +51,24 @@ static void	second_cmd_prc(t_data *data, char **argv, char **environ)
 	int	outfile_fd;
 
 	if (pipe(pipe_fds) < 0)
-		exit(err_return(ERR_PIPE, NULL, NULL));
+		exit(err_return(errno, NULL, NULL));
 	if ((child_fd = fork()) < 0)
-		exit(err_return(ERR_FORK, &pipe_fds[0], &pipe_fds[1]));
+		exit(err_return(errno, &pipe_fds[0], &pipe_fds[1]));
 	if (child_fd > 0)
 	{
 		wait(&status);
-		if (status == ERR_EXECVE || status == ERR_DUP2)
-			exit(err_return(status, &pipe_fds[0], &pipe_fds[1]));
+		// if (status == ERR_EXECVE || status == ERR_DUP2)
+		// 	exit(err_return(status, &pipe_fds[0], &pipe_fds[1]));
 		outfile_fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (outfile_fd < 0)
 			exit(err_return(0, &pipe_fds[0], &pipe_fds[1]));
 		close(pipe_fds[1]);
 		if (dup2(pipe_fds[0], 0) < 0)
-			exit(err_return(ERR_DUP2, &pipe_fds[0], &outfile_fd));
+			exit(err_return(errno, &pipe_fds[0], &outfile_fd));
 		if (dup2(outfile_fd, 1) < 0)
-			exit(err_return(ERR_DUP2, &pipe_fds[0], &outfile_fd));
+			exit(err_return(errno, &pipe_fds[0], &outfile_fd));
 		if (execve(data->cmd_paths[1], data->cmds[1], environ) < 0)
-			exit(err_return(ERR_EXECVE, &pipe_fds[0], &outfile_fd));
+			exit(err_return(errno, &pipe_fds[0], &outfile_fd));
 	}
 	else
 		first_cmd_prc(data, argv, pipe_fds, environ);
@@ -82,7 +82,7 @@ int	do_cmds(t_data *data, char **argv)
 
 	status = 0;
 	if ((child_fd = fork()) < 0)
-		return (ERR_FORK);
+		return (err_return(errno, NULL, NULL));
 	if (child_fd > 0)
 		wait(&status);
 	else

@@ -115,7 +115,7 @@ static t_bool	get_abs_paths(t_data *data, char **paths)
 		if (!(data->cmd_paths[1]))
 			return (FALSE);
 	}
-	while (*paths && (!first_cmd_flag && !second_cmd_flag))
+	while (*paths)
 	{
 		tmp1 = ft_strjoin(*paths, data->cmds[0][0]);
 		if (!tmp1)
