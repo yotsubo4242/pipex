@@ -1,7 +1,2 @@
-Makefile
-infile.txt
-libft
-outfile.txt
-pipex
-pipex.h
-src
+-rw-r--r-- 1 yotsubo yotsubo   717 Jul  8 12:10 Makefile
+-rw-r--r-- 1 yotsubo yotsubo   116 Jul  8 12:10 README.md

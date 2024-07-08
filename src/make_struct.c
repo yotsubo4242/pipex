@@ -73,7 +73,6 @@ t_data	*make_struct(int argc, char *argv[])
 	if (!data)
 		return (err_return(NULL));
 	ft_bzero(data, sizeof(t_data));
-	// get_fds(argv, data);
 	if (!get_cmds(argv, data))
 		return (err_return(data));
 	return (data);

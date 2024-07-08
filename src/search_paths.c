@@ -13,9 +13,6 @@
 #include "libft.h"
 #include "../pipex.h"
 
-// [!] need to modify
-// - if the command line args are definitly path of commands.
-
 char	**free_paths(char **paths, int paths_num)
 {
 	size_t	i;
@@ -104,7 +101,21 @@ static t_bool	get_abs_paths(t_data *data, char **paths)
 	if (!(data->cmd_paths))
 		return (FALSE);
 	ft_bzero(data->cmd_paths, sizeof(char *) * 3);
-	while (*paths)
+	if (!access(data->cmds[0][0], X_OK | F_OK))
+	{
+		first_cmd_flag = TRUE;
+		data->cmd_paths[0] = ft_strdup(data->cmds[0][0]);
+		if (!(data->cmd_paths[0]))
+			return (FALSE);
+	}
+	if (!access(data->cmds[1][0], X_OK | F_OK))
+	{
+		second_cmd_flag = TRUE;
+		data->cmd_paths[1] = ft_strdup(data->cmds[1][0]);
+		if (!(data->cmd_paths[1]))
+			return (FALSE);
+	}
+	while (*paths && (!first_cmd_flag && !second_cmd_flag))
 	{
 		tmp1 = ft_strjoin(*paths, data->cmds[0][0]);
 		if (!tmp1)
@@ -115,15 +126,19 @@ static t_bool	get_abs_paths(t_data *data, char **paths)
 			free(tmp1);
 			return (FALSE);
 		}
-		if (!access(tmp1, X_OK | F_OK))
+		if (!first_cmd_flag && !access(tmp1, X_OK | F_OK))
 		{
 			first_cmd_flag = TRUE;
 			data->cmd_paths[0] = map_and_free(ft_strjoin(*paths, data->cmds[0][0]), data->cmd_paths[0]);
+			if (!(data->cmd_paths[0]))
+				return (FALSE);
 		}
-		if (!access(tmp2, X_OK | F_OK))
+		if (!second_cmd_flag && !access(tmp2, X_OK | F_OK))
 		{
 			second_cmd_flag = TRUE;
 			data->cmd_paths[1] = map_and_free(ft_strjoin(*paths, data->cmds[1][0]), data->cmd_paths[1]);
+			if (!(data->cmd_paths[1]))
+				return (FALSE);
 		}
 		free(tmp1);
 		free(tmp2);
