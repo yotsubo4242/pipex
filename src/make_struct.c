@@ -68,7 +68,10 @@ t_data	*make_struct(int argc, char *argv[])
 	t_data	*data;
 
 	if (argc != 5)
+	{
+		ft_printf("Usage: ./pipex <infile> <first cmd> <second cmd> <outfile>\n");
 		return (err_return(NULL));
+	}
 	data = (t_data *)malloc(sizeof(t_data));
 	if (!data)
 		return (err_return(NULL));
