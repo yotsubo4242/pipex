@@ -13,24 +13,6 @@
 #include "libft.h"
 #include "../pipex.h"
 
-char	**free_paths(char **paths, int paths_num)
-{
-	size_t	i;
-
-	if (paths)
-	{
-		i = 0;
-		while (i < (size_t)paths_num)
-		{
-			if (paths[i])
-				free(paths[i]);
-			i++;
-		}
-		free(paths);
-	}
-	return (NULL);
-}
-
 static int	get_paths_num(char **paths)
 {
 	int	paths_num;

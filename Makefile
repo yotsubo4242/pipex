@@ -1,6 +1,6 @@
 NAME = pipex
 SRCS = ./src/main.c \
-		./src/make_struct.c \
+		./src/check_input.c \
 		./src/search_paths.c \
 		./src/do_cmds.c \
 		./src/check_fds.c

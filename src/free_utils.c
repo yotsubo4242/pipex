@@ -1,31 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_fds.c                                        :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/07 16:56:27 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/07/09 17:59:50 by yuotsubo         ###   ########.fr       */
+/*   Created: 2024/07/09 18:58:34 by yuotsubo          #+#    #+#             */
+/*   Updated: 2024/07/09 18:59:39 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 #include "libft.h"
 
-t_bool	check_fds(char **argv)
+void	free_data(t_data *data)
 {
-	int	infile_fd;
-	int	outfile_fd;
+	if (!data)
+		return ;
+	if (data->cmds)
+		free_cmds(data->cmds);
+	if (data->cmd_paths)
+		free_paths(data->cmd_paths, 2);
+	if (data)
+		free(data);
+}
 
-	infile_fd = open(argv[1], O_RDONLY);
-	if (infile_fd < 0)
-		ft_printf("%s: %s\n", argv[1], strerror(errno));
-	else
-		close(infile_fd);
-	outfile_fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (outfile_fd < 0)
-		ft_printf("%s: %s\n", argv[4], strerror(errno));
-	else
-		close(outfile_fd);
+char	**free_paths(char **paths, int paths_num)
+{
+	size_t	i;
+
+	if (paths)
+	{
+		i = 0;
+		while (i < (size_t)paths_num)
+		{
+			if (paths[i])
+				free(paths[i]);
+			i++;
+		}
+		free(paths);
+	}
+	return (NULL);
 }

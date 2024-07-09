@@ -40,9 +40,9 @@ int	main(int argc, char *argv[])
 	data = check_input(argc, argv);
 	if (!data)
 		return (err_return(NULL));
+	check_fds(argv);
 	if (!search_paths(data))
 		return (err_return(data));
-	check_fds(argv);
 	cmds_res = do_cmds(data, argv);
 	if (cmds_res < 0)
 		return (err_return(data));
