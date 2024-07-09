@@ -6,7 +6,7 @@
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 18:46:59 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/07/09 19:11:11 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/07/09 21:51:27 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,15 @@ static int	get_paths_num(char **paths)
 	while (paths[paths_num])
 		paths_num++;
 	return (paths_num);
+}
+
+static t_bool	is_relative_path(char *cmd_name)
+{
+	if (!ft_strncmp(cmd_name, "./", ft_strlen("./")))
+		return (TRUE);
+	if (!ft_strncmp(cmd_name, "../", ft_strlen("../")))
+		return (TRUE);
+	return (FALSE);
 }
 
 static char	**get_paths(char **environ)
@@ -98,6 +107,8 @@ char	*search_cmd_path(char *cmd_name, char **environ)
 		res = ft_strdup(cmd_name);
 		return (res);
 	}
+	if (is_relative_path(cmd_name))
+		return (NULL);
 	paths = get_paths(environ);
 	if (!paths)
 		return (NULL);
