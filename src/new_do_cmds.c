@@ -6,27 +6,34 @@
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:09:54 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/17 14:06:59 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:28:16 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 #include "libft.h"
 
-//int	err_return(int errno, int pipe_fd0, int pipe_fd1, int file_fd)
-//{
-//	if (errno)
-//		ft_printf()
-//}
+int	err_return(int err_num, int *pipe_fd0_p, int *pipe_fd1_p, int *file_fd_p)
+{
+	if (err_num)
+		ft_printf("bash: %s\n", strerror(err_num));
+	if (pipe_fd0_p)
+		close(*pipe_fd0_p);
+	if (pipe_fd1_p)
+		close(*pipe_fd1_p);
+	if (file_fd_p)
+		close(*file_fd_p);
+	return (EXIT_FAILURE);
+}
 
-static void	cmd_proc(t_data *data, char **argv, int pipe_fds[2], t_bool is_second)
+static void	cmd_proc(t_data *data, char **argv, int pipe_fds[2], t_bool is_last)
 {
 	extern char	**environ;
 	int			file_fd;
 	char		*file_name;
 
-	close(pipe_fds[is_second]);
-	if (!is_second)
+	close(pipe_fds[is_last]);
+	if (!is_last)
 	{
 		file_name = argv[1];
 		file_fd = open(file_name, O_RDONLY);
@@ -39,23 +46,24 @@ static void	cmd_proc(t_data *data, char **argv, int pipe_fds[2], t_bool is_secon
 	if (file_fd < 0)
 	{
 		ft_printf("bash: %s: %s\n", file_name, strerror(errno));
-		exit(err_return());
+		exit(err_return(0, &pipe_fds[!is_last], NULL, NULL));
 	}
-	data->cmd_paths[is_second] = search_cmd_path(data->cmds[is_second][0], environ);
-	if (!(data->cmd_paths[is_second]));
+	data->cmd_paths[is_last] = search_cmd_path(data->cmds[is_last][0], environ);
+	if (!(data->cmd_paths[is_last]))
 	{
-		ft_printf("bash: %s: %s\n", data->cmds[is_second][0], strerror(errno));
-		exit(err_return());
+		ft_printf("bash: %s: %s\n", data->cmds[is_last][0], strerror(errno));
+		exit(err_return(0, &pipe_fds[!is_last], NULL, &file_fd));
 	}
-	if (dup2(pipe_fds[!is_second], !is_second) < 0)
-		exit(err_return());
-	if (dup2(file_fd, is_second) < 0)
-		exit(err_return());
-	if (execve(data->cmd_paths[is_second], data->cmds[is_second], environ) < 0)
-		exit(err_return());
+	if (dup2(pipe_fds[!is_last], !is_last) < 0)
+		exit(err_return(errno, &pipe_fds[!is_last], NULL, &file_fd));
+	if (dup2(file_fd, is_last) < 0)
+		exit(err_return(errno, &pipe_fds[!is_last], NULL, &file_fd));
+	if (execve(data->cmd_paths[is_last], data->cmds[is_last], environ) < 0)
+	{
+		free_data(data);
+		exit(err_return(errno, &pipe_fds[!is_last], NULL, &file_fd));
+	}
 }
-
-// 親がpipe作れば兄弟間でもきょうゆうされる？？
 
 void	do_cmds(t_data *data, char **argv)
 {
@@ -65,21 +73,21 @@ void	do_cmds(t_data *data, char **argv)
 
 	errno = 0;
 	if (pipe(pipe_fds) < 0)
-		exit(err_return());
+		exit(err_return(errno, NULL, NULL, NULL));
 	child_fds[0] = fork();
 	if (child_fds[0] < 0)
-		return (err_return());
+		exit(err_return(errno, &pipe_fds[0], &pipe_fds[1], NULL));
 	else if (!child_fds[0])
 		cmd_proc(data, argv, pipe_fds, FALSE);
 	child_fds[1] = fork();
 	if (child_fds[1] < 0)
-		return (err_return());
+		exit(err_return(errno, &pipe_fds[0], &pipe_fds[1], NULL));
 	else if (child_fds[1])
-		cmd_proc(data, argv, pipe_fds[2], TRUE);
+		cmd_proc(data, argv, pipe_fds, TRUE);
 	waitpid(child_fds[1], &exit_status, 0);
 	wait(NULL);
-	if (exit_status) {
+	if (WIFEXITED(exit_status)) {
 		free_data(data);
-		exit(exit_status);
+		exit(WEXITSTATUS(exit_status));
 	}
 }
