@@ -3,7 +3,7 @@ SRCS = ./src/main.c \
 		./src/data_init.c \
 		./src/search_cmd_path.c \
 		./src/free_utils.c \
-		./src/do_cmds.c
+		./src/new_do_cmds.c
 OBJS = $(SRCS:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address

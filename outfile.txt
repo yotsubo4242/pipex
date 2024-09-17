@@ -1,7 +1,0 @@
-Makefile
-infile.txt
-libft
-outfile.txt
-pipex
-pipex.h
-src
