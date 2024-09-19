@@ -6,7 +6,7 @@
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:09:54 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/17 17:28:16 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/09/19 13:55:13 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 int	err_return(int err_num, int *pipe_fd0_p, int *pipe_fd1_p, int *file_fd_p)
 {
 	if (err_num)
-		ft_printf("bash: %s\n", strerror(err_num));
+		perror("yeah");
+		//ft_printf("bash: %s\n", strerror(err_num));
 	if (pipe_fd0_p)
 		close(*pipe_fd0_p);
 	if (pipe_fd1_p)
@@ -45,14 +46,14 @@ static void	cmd_proc(t_data *data, char **argv, int pipe_fds[2], t_bool is_last)
 	}
 	if (file_fd < 0)
 	{
-		ft_printf("bash: %s: %s\n", file_name, strerror(errno));
-		exit(err_return(0, &pipe_fds[!is_last], NULL, NULL));
+		//ft_printf("bash: %s: %s\n", file_name, strerror(errno));
+		exit(err_return(errno, &pipe_fds[!is_last], NULL, NULL));
 	}
 	data->cmd_paths[is_last] = search_cmd_path(data->cmds[is_last][0], environ);
 	if (!(data->cmd_paths[is_last]))
 	{
-		ft_printf("bash: %s: %s\n", data->cmds[is_last][0], strerror(errno));
-		exit(err_return(0, &pipe_fds[!is_last], NULL, &file_fd));
+		//ft_printf("bash: %s: %s\n", data->cmds[is_last][0], strerror(errno));
+		exit(err_return(errno, &pipe_fds[!is_last], NULL, &file_fd));
 	}
 	if (dup2(pipe_fds[!is_last], !is_last) < 0)
 		exit(err_return(errno, &pipe_fds[!is_last], NULL, &file_fd));
