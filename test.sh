@@ -193,3 +193,148 @@ cat outfile
 
 echo ""
 echo ""
+
+# make test executabel file
+touch tmp.c
+echo "#include <stdio.h>\n\nint main(void) {\n\tprintf(\"Hello 42\\\\n\");\n\treturn(0);\n}" > tmp.c
+cc tmp.c
+
+# test12 (first command is relative path)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '12. < infile ./a.out | /usr/bin/cat > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile ./a.out | /usr/bin/cat > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile ./a.out /usr/bin/cat outfile
+cat outfile
+
+echo ""
+echo ""
+
+# test13 (second command is relative path)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '13. < infile ./a.out | /usr/bin/cat > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile ./a.out | /usr/bin/cat > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile /usr/bin/ls ./a.out outfile
+cat outfile
+
+echo ""
+echo ""
+
+# test14 (both commands are relative path)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '14. < infile ./a.out | ./a.out > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile ./a.out | ./a.out > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile ./a.out ./a.out outfile
+cat outfile
+
+echo ""
+echo ""
+
+# test15 (first command is bad path)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '15. < infile ../a.out | sleep 5 > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile ../a.out | sleep 5 > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile ../a.out "sleep 5" outfile
+
+echo ""
+echo ""
+
+# test16 (second command is bad path)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '16. < infile sleep 5 | ../a.out > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile sleep 5 | ../a.out > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile "sleep 5" ../a.out outfile
+
+echo ""
+echo ""
+
+# test17 (both commands are bad path)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '17. < infile ../a.out | ../a.out > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile ../a.out | ../a.out > outfile
+cat outfile
+echo ""echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '19. < infile sleep 5 | ../a.out -wrongflag > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile sleep 5 | ../a.out -wrongflag > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile "sleep 5" "../a.out -wrongflag" outfile
+
+echo ""
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile ../a.out ../a.out outfile
+
+echo ""
+echo ""
+
+# test18 (first command is relative path & bad option)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '18. < infile ../a.out -wrongflag | sleep 5 > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile ../a.out -wrongflag | sleep 5 > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile "../a.out -wrongflag" "sleep 5" outfile
+
+echo ""
+echo ""
+
+# test19 (second command is relative path & bad option)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '19. < infile sleep 5 | ../a.out -wrongflag > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile sleep 5 | ../a.out -wrongflag > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile "sleep 5" "../a.out -wrongflag" outfile
+
+echo ""
+echo ""
+
+# test20 (both command are relative path & bad option)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '20. < infile ../a.out -wrongflag | ../a.out -wrongflag > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile ../a.out -wrongflag | ../a.out -wrongflag > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile "../a.out -wrongflag" "../a.out -wrongflag" outfile
+
+echo ""
+echo ""
