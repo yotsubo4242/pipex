@@ -278,17 +278,6 @@ printf "\033[36m%s\033[m\n" '17. < infile ../a.out | ../a.out > outfile'
 printf "\033[33m%s\033[m\n" '# bash #'
 < infile ../a.out | ../a.out > outfile
 cat outfile
-echo ""echo "this\nshoud\nbe\noverrided" > outfile
-printf "\033[36m%s\033[m\n" '19. < infile sleep 3 | ../a.out -wrongflag > outfile'
-printf "\033[33m%s\033[m\n" '# bash #'
-< infile sleep 3 | ../a.out -wrongflag > outfile
-cat outfile
-echo ""
-echo "this\nshoud\nbe\noverrided" > outfile
-printf "\033[33m%s\033[m\n" '# pipex #'
-./pipex infile "sleep 3" "../a.out -wrongflag" outfile
-
-echo ""
 echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
