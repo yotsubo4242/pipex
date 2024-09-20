@@ -6,7 +6,7 @@
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:09:54 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/19 13:55:13 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:51:52 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	err_return(int err_num, int *pipe_fd0_p, int *pipe_fd1_p, int *file_fd_p)
 {
 	if (err_num)
-		perror("yeah");
+		perror("");
 		//ft_printf("bash: %s\n", strerror(err_num));
 	if (pipe_fd0_p)
 		close(*pipe_fd0_p);
