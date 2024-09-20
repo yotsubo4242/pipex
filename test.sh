@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/bash
 
 ESC=$(printf '\033')
 #printf "${ESC}[31m%s${ESC}[m\n" 'RED'
@@ -194,9 +194,9 @@ cat outfile
 echo ""
 echo ""
 
+
+
 # make test executabel file
-touch tmp.c
-echo "#include <stdio.h>\n\nint main(void) {\n\tprintf(\"Hello 42\\\\n\");\n\treturn(0);\n}" > tmp.c
 cc tmp.c
 
 # test12 (first command is relative path)
@@ -246,28 +246,28 @@ echo ""
 
 # test15 (first command is bad path)
 echo "this\nshoud\nbe\noverrided" > outfile
-printf "\033[36m%s\033[m\n" '15. < infile ../a.out | sleep 5 > outfile'
+printf "\033[36m%s\033[m\n" '15. < infile ../a.out | sleep 3 > outfile'
 printf "\033[33m%s\033[m\n" '# bash #'
-< infile ../a.out | sleep 5 > outfile
+< infile ../a.out | sleep 3 > outfile
 cat outfile
 echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
-./pipex infile ../a.out "sleep 5" outfile
+./pipex infile ../a.out "sleep 3" outfile
 
 echo ""
 echo ""
 
 # test16 (second command is bad path)
 echo "this\nshoud\nbe\noverrided" > outfile
-printf "\033[36m%s\033[m\n" '16. < infile sleep 5 | ../a.out > outfile'
+printf "\033[36m%s\033[m\n" '16. < infile sleep 3 | ../a.out > outfile'
 printf "\033[33m%s\033[m\n" '# bash #'
-< infile sleep 5 | ../a.out > outfile
+< infile sleep 3 | ../a.out > outfile
 cat outfile
 echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
-./pipex infile "sleep 5" ../a.out outfile
+./pipex infile "sleep 3" ../a.out outfile
 
 echo ""
 echo ""
@@ -279,14 +279,14 @@ printf "\033[33m%s\033[m\n" '# bash #'
 < infile ../a.out | ../a.out > outfile
 cat outfile
 echo ""echo "this\nshoud\nbe\noverrided" > outfile
-printf "\033[36m%s\033[m\n" '19. < infile sleep 5 | ../a.out -wrongflag > outfile'
+printf "\033[36m%s\033[m\n" '19. < infile sleep 3 | ../a.out -wrongflag > outfile'
 printf "\033[33m%s\033[m\n" '# bash #'
-< infile sleep 5 | ../a.out -wrongflag > outfile
+< infile sleep 3 | ../a.out -wrongflag > outfile
 cat outfile
 echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
-./pipex infile "sleep 5" "../a.out -wrongflag" outfile
+./pipex infile "sleep 3" "../a.out -wrongflag" outfile
 
 echo ""
 echo ""
@@ -299,28 +299,28 @@ echo ""
 
 # test18 (first command is relative path & bad option)
 echo "this\nshoud\nbe\noverrided" > outfile
-printf "\033[36m%s\033[m\n" '18. < infile ../a.out -wrongflag | sleep 5 > outfile'
+printf "\033[36m%s\033[m\n" '18. < infile ../a.out -wrongflag | sleep 3 > outfile'
 printf "\033[33m%s\033[m\n" '# bash #'
-< infile ../a.out -wrongflag | sleep 5 > outfile
+< infile ../a.out -wrongflag | sleep 3 > outfile
 cat outfile
 echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
-./pipex infile "../a.out -wrongflag" "sleep 5" outfile
+./pipex infile "../a.out -wrongflag" "sleep 3" outfile
 
 echo ""
 echo ""
 
 # test19 (second command is relative path & bad option)
 echo "this\nshoud\nbe\noverrided" > outfile
-printf "\033[36m%s\033[m\n" '19. < infile sleep 5 | ../a.out -wrongflag > outfile'
+printf "\033[36m%s\033[m\n" '19. < infile sleep 3 | ../a.out -wrongflag > outfile'
 printf "\033[33m%s\033[m\n" '# bash #'
-< infile sleep 5 | ../a.out -wrongflag > outfile
+< infile sleep 3 | ../a.out -wrongflag > outfile
 cat outfile
 echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
-./pipex infile "sleep 5" "../a.out -wrongflag" outfile
+./pipex infile "sleep 3" "../a.out -wrongflag" outfile
 
 echo ""
 echo ""
@@ -338,3 +338,92 @@ printf "\033[33m%s\033[m\n" '# pipex #'
 
 echo ""
 echo ""
+
+# test21 (first command is close relative path)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '21. < infile a.out | sleep 3 > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile a.out | sleep 3 > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile a.out "sleep 3" outfile
+
+echo ""
+echo ""
+
+# test22 (second command is close relative path)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '22. < infile sleep 3 | a.out > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile sleep 3 | a.out > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile "sleep 3" a.out outfile
+
+echo ""
+echo ""
+
+# test23 (both command are close relative path)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '23. < infile a.out | a.out > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile a.out | a.out > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile a.out a.out outfile
+
+echo ""
+echo ""
+
+# test24 (first command is close relative path)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '24. < infile /a.out | sleep 3 > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile /a.out | sleep 3 > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile /a.out "sleep 3" outfile
+
+echo ""
+echo ""
+
+# test25 (second command is close relative path)
+echo "this\nshoud\nbe\noverrided" > outfile< infile a.out | a.out > outfile
+printf "\033[36m%s\033[m\n" '25. < infile sleep 3 | /a.out > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile sleep 3 | /a.out > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile "sleep 3" /a.out outfile
+
+echo ""
+echo ""
+
+# test26 (both command are close relative path)
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[36m%s\033[m\n" '26. < infile /a.out | /a.out > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile /a.out | /a.out > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile /a.out /a.out outfile
+
+echo ""
+echo ""
+
+
+
+
+rm a.out
