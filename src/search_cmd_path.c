@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_search_cmd_path.c                              :+:      :+:    :+:   */
+/*   search_cmd_path.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 18:48:14 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/24 19:01:37 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/09/24 20:13:41 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "../pipex.h"
+#include "pipex.h"
 
 static int	get_paths_num(char **paths)
 {

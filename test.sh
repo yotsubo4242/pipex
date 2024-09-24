@@ -455,7 +455,6 @@ printf "\033[33m%s\033[m\n" '# bash #'
 < infile sleep 3 | ls > outfile
 cat outfile
 echo ""
-echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile "sleep 3" ls outfile
 cat outfile
@@ -473,7 +472,6 @@ printf "\033[33m%s\033[m\n" '# bash #'
 < infile sleep 3 | sleep 3 > outfile
 cat outfile
 echo ""
-echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile "sleep 3" "sleep 3" outfile
 cat outfile

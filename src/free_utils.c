@@ -6,11 +6,11 @@
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 18:58:34 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/07/09 20:13:49 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/09/24 20:13:52 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "pipex.h"
 #include "libft.h"
 
 void	free_data(t_data *data)
