@@ -6,7 +6,7 @@
 /*   By: yotsubo <y.otsubo.886@ms.saitama-u.ac.j    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:09:54 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/24 23:29:58 by yotsubo          ###   ########.fr       */
+/*   Updated: 2024/09/25 00:16:15 by yotsubo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	output_error_message(char *detail, char *err_msg)
 
 static int	err_return(int err_num, int *pipe_fd0_p, int *pipe_fd1_p, int *file_fd_p)
 {
-	if (err_num)
+	if (err_num > 0)
 		output_error_message(NULL, strerror(err_num));
 	if (pipe_fd0_p)
 		close(*pipe_fd0_p);
@@ -55,6 +55,10 @@ static int	err_return(int err_num, int *pipe_fd0_p, int *pipe_fd1_p, int *file_f
 		close(*pipe_fd1_p);
 	if (file_fd_p)
 		close(*file_fd_p);
+	if (err_num == CMD_NOT_FOUND)
+		return (CMD_NOT_FOUND_STS);
+	if (err_num == CMD_CANT_EXEC)
+		return (CMD_CANT_EXEC_STS);
 	return (EXIT_FAILURE);
 }
 
@@ -72,7 +76,7 @@ static void	tail_cmd_proc(t_data *data, char **argv, int pipe_fds[2])
 	}
 	data->cmd_paths[1] = search_cmd_path(data->cmds[1][0], environ);
 	if (!(data->cmd_paths[1]))
-		exit(err_return(0, &pipe_fds[0], NULL, &file_fd));
+		exit(err_return(CMD_NOT_FOUND, &pipe_fds[0], NULL, &file_fd));
 	if (dup2(pipe_fds[0], STDIN_FILENO) < 0)
 		exit(err_return(errno, &pipe_fds[0], NULL, &file_fd));
 	close(pipe_fds[0]);
@@ -82,7 +86,7 @@ static void	tail_cmd_proc(t_data *data, char **argv, int pipe_fds[2])
 	if (execve(data->cmd_paths[1], data->cmds[1], environ) < 0)
 	{
 		free_data(data);
-		exit(err_return(errno, &pipe_fds[0], NULL, &file_fd));
+		exit(err_return(CMD_CANT_EXEC, &pipe_fds[0], NULL, &file_fd));
 	}
 }
 
@@ -126,12 +130,12 @@ void	do_cmds(t_data *data, char **argv)
 	child_pids[0] = fork();
 	if (child_pids[0] < 0)
 		exit(err_return(errno, &pipe_fds[0], &pipe_fds[1], NULL));
-	else if (child_pids[0] == 0)
+	else if (!child_pids[0])
 		head_cmd_proc(data, argv, pipe_fds);
 	child_pids[1] = fork();
 	if (child_pids[1] < 0)
 		exit(err_return(errno, &pipe_fds[0], &pipe_fds[1], NULL));
-	else if (child_pids[1] == 0)
+	else if (!child_pids[1])
 		tail_cmd_proc(data, argv, pipe_fds);
 	close(pipe_fds[0]);
 	close(pipe_fds[1]);

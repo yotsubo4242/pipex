@@ -11,6 +11,11 @@
 # define TRUE 1
 # define FALSE 0
 
+# define CMD_NOT_FOUND -1
+# define CMD_CANT_EXEC -2
+# define CMD_CANT_EXEC_STS 126
+# define CMD_NOT_FOUND_STS 127
+
 typedef int t_bool;
 
 typedef struct s_data {
