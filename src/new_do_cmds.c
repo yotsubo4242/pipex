@@ -6,7 +6,7 @@
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:09:54 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/19 15:51:52 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/09/24 19:00:21 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	cmd_proc(t_data *data, char **argv, int pipe_fds[2], t_bool is_last)
 	if (!(data->cmd_paths[is_last]))
 	{
 		//ft_printf("bash: %s: %s\n", data->cmds[is_last][0], strerror(errno));
-		exit(err_return(errno, &pipe_fds[!is_last], NULL, &file_fd));
+		exit(err_return(0, &pipe_fds[!is_last], NULL, &file_fd));
 	}
 	if (dup2(pipe_fds[!is_last], !is_last) < 0)
 		exit(err_return(errno, &pipe_fds[!is_last], NULL, &file_fd));

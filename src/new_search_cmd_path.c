@@ -6,7 +6,7 @@
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 18:48:14 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/24 18:54:17 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/09/24 19:01:37 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ char	*search_cmd_path(char *cmd_name, char **environ)
 	if (ft_strchr(cmd_name, '/'))
 	{
 		res = passed_path(cmd_name);
+		if (!res)
+			ft_printf("%s: No such file or directory\n", cmd_name);
 		return (res);
 	}
 	paths = get_paths(environ);
@@ -115,6 +117,8 @@ char	*search_cmd_path(char *cmd_name, char **environ)
 	if (!paths)
 		return (NULL);
 	res = get_cmd_path(cmd_name, paths);
+	if (!res)
+		ft_printf("%s: command not found\n", cmd_name);
 	free_paths(paths, get_paths_num(paths));
 	return (res);
 }
