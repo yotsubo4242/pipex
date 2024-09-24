@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   search_cmd_path.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yotsubo <y.otsubo.886@ms.saitama-u.ac.j    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 18:48:14 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/24 20:13:41 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/09/24 23:54:37 by yotsubo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char *passed_path(char *cmd_name)
 	char *res;
 
 	res = NULL;
-	if (!access(cmd_name, X_OK | F_OK))
+	if (!access(cmd_name, F_OK))
 		res = ft_strdup(cmd_name);
 	return (res);
 }
@@ -90,7 +90,7 @@ static char	*get_cmd_path(char *cmd_name, char **paths)
 		tmp = ft_strjoin(*paths, cmd_name);
 		if (!tmp)
 			return (NULL);
-		if (!access(tmp, X_OK | F_OK))
+		if (!access(tmp, F_OK))
 			return (tmp);
 		free(tmp);
 		paths++;
@@ -107,7 +107,7 @@ char	*search_cmd_path(char *cmd_name, char **environ)
 	{
 		res = passed_path(cmd_name);
 		if (!res)
-			ft_printf("%s: No such file or directory\n", cmd_name);
+			output_error_message(cmd_name, "No such file or directory");
 		return (res);
 	}
 	paths = get_paths(environ);
@@ -118,7 +118,7 @@ char	*search_cmd_path(char *cmd_name, char **environ)
 		return (NULL);
 	res = get_cmd_path(cmd_name, paths);
 	if (!res)
-		ft_printf("%s: command not found\n", cmd_name);
+		output_error_message(cmd_name, "command not found");
 	free_paths(paths, get_paths_num(paths));
 	return (res);
 }

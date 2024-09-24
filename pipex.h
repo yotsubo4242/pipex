@@ -11,6 +11,11 @@
 # define TRUE 1
 # define FALSE 0
 
+# define CMD_NOT_FOUND -1
+# define CMD_CANT_EXEC -2
+# define CMD_CANT_EXEC_STS 126
+# define CMD_NOT_FOUND_STS 127
+
 typedef int t_bool;
 
 typedef struct s_data {
@@ -33,5 +38,7 @@ char	*search_cmd_path(char *cmd_name, char **environ);
 void	do_cmds(t_data *data, char **argv);
 
 void	check_fds(char **argv);
+
+void	output_error_message(char *detail, char *err_msg);
 
 #endif
