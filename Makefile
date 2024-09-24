@@ -3,11 +3,11 @@ SRCS = ./src/main.c \
 		./src/data_init.c \
 		./src/search_cmd_path.c \
 		./src/free_utils.c \
-		./src/new_do_cmds.c
+		./src/do_cmds.c
 OBJS = $(SRCS:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
-INCLUDES = -I../ -I./libft
+INCLUDES = -I./ -I./libft
 LIBFT_PATH = ./libft
 LIBFT = $(LIBFT_PATH)/libft.a
 

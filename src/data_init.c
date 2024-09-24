@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "pipex.h"
 #include "libft.h"
 
 static t_data	*err_return(t_data *data)
