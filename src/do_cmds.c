@@ -3,20 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   do_cmds.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yotsubo <y.otsubo.886@ms.saitama-u.ac.j    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:09:54 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/24 20:26:39 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/09/24 23:29:58 by yotsubo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include "libft.h"
 
-int	err_return(int err_num, int *pipe_fd0_p, int *pipe_fd1_p, int *file_fd_p)
+static char *make_error_message(char *detail, char *err_msg)
+{
+	char	*res;
+
+	if (!detail)
+	{
+		res = ft_strdup(err_msg);
+		return (res);
+	}
+	res = (char *)malloc(ft_strlen(detail) + ft_strlen(err_msg) + 4);
+	if (!res)
+		return (NULL);
+	ft_strlcpy(res, detail, ft_strlen(detail) + 1);
+	res[ft_strlen(detail)] = ':';
+	res[ft_strlen(detail) + 1] = ' ';
+	ft_strlcpy(&res[ft_strlen(detail) + 2], err_msg, ft_strlen(err_msg) + 1);
+	res[ft_strlen(detail) + ft_strlen(err_msg) + 2] = '\n';
+	res[ft_strlen(detail) + ft_strlen(err_msg) + 3] = '\0';
+	return (res);
+}
+
+void	output_error_message(char *detail, char *err_msg)
+{
+	if (!detail && !err_msg)
+		return ;
+	err_msg = make_error_message(detail, err_msg);
+	if (!err_msg)
+		return ;
+	write(STDOUT_FILENO, err_msg, ft_strlen(err_msg));
+	free(err_msg);
+}
+
+static int	err_return(int err_num, int *pipe_fd0_p, int *pipe_fd1_p, int *file_fd_p)
 {
 	if (err_num)
-		perror("");
+		output_error_message(NULL, strerror(err_num));
 	if (pipe_fd0_p)
 		close(*pipe_fd0_p);
 	if (pipe_fd1_p)
@@ -35,7 +67,7 @@ static void	tail_cmd_proc(t_data *data, char **argv, int pipe_fds[2])
 		file_fd = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (file_fd < 0)
 	{
-		ft_printf("%s: %s\n", argv[4], strerror(errno));
+		output_error_message(argv[4], strerror(errno));
 		exit(err_return(0, &pipe_fds[0], NULL, NULL));
 	}
 	data->cmd_paths[1] = search_cmd_path(data->cmds[1][0], environ);
@@ -63,7 +95,7 @@ static void	head_cmd_proc(t_data *data, char **argv, int pipe_fds[2])
 	file_fd = open(argv[1], O_RDONLY);
 	if (file_fd < 0)
 	{
-		ft_printf("%s: %s\n", argv[1], strerror(errno));
+		output_error_message(argv[1], strerror(errno));
 		exit(err_return(0, &pipe_fds[1], NULL, NULL));
 	}
 	data->cmd_paths[0] = search_cmd_path(data->cmds[0][0], environ);

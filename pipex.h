@@ -34,4 +34,6 @@ void	do_cmds(t_data *data, char **argv);
 
 void	check_fds(char **argv);
 
+void	output_error_message(char *detail, char *err_msg);
+
 #endif
