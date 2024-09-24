@@ -254,6 +254,7 @@ echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile ../a.out "sleep 3" outfile
+cat outfile
 
 echo ""
 echo ""
@@ -268,6 +269,7 @@ echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile "sleep 3" ../a.out outfile
+cat outfile
 
 echo ""
 echo ""
@@ -282,6 +284,7 @@ echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile ../a.out ../a.out outfile
+cat outfile
 
 echo ""
 echo ""
@@ -296,6 +299,7 @@ echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile "../a.out -wrongflag" "sleep 3" outfile
+cat outfile
 
 echo ""
 echo ""
@@ -310,6 +314,7 @@ echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile "sleep 3" "../a.out -wrongflag" outfile
+cat outfile
 
 echo ""
 echo ""
@@ -324,6 +329,7 @@ echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile "../a.out -wrongflag" "../a.out -wrongflag" outfile
+cat outfile
 
 echo ""
 echo ""
@@ -338,6 +344,7 @@ echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile a.out "sleep 3" outfile
+cat outfile
 
 echo ""
 echo ""
@@ -352,6 +359,7 @@ echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile "sleep 3" a.out outfile
+cat outfile
 
 echo ""
 echo ""
@@ -366,6 +374,7 @@ echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile a.out a.out outfile
+cat outfile
 
 echo ""
 echo ""
@@ -380,6 +389,7 @@ echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile /a.out "sleep 3" outfile
+cat outfile
 
 echo ""
 echo ""
@@ -394,6 +404,7 @@ echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile "sleep 3" /a.out outfile
+cat outfile
 
 echo ""
 echo ""
@@ -408,10 +419,69 @@ echo ""
 echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[33m%s\033[m\n" '# pipex #'
 ./pipex infile /a.out /a.out outfile
+cat outfile
 
 echo ""
 echo ""
 
+
+
+# Permission Test
+printf "\033[32m%s\033[m\n" '~ Permission Test ~'
+
+
+# test27 infile
+echo "this\nshoud\nbe\noverrided" > outfile
+chmod -r infile
+printf "\033[36m%s\033[m\n" '27. < infile cat | ls > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile cat | ls > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile cat ls outfile
+cat outfile
+chmod +r infile
+
+echo ""
+echo ""
+
+# test28 outfile
+echo "this\nshoud\nbe\noverrided" > outfile
+chmod -w outfile
+printf "\033[36m%s\033[m\n" '28. < infile sleep 3 | ls > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile sleep 3 | ls > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile "sleep 3" ls outfile
+cat outfile
+chmod +w outfile
+
+echo ""
+echo ""
+
+# test29 infile & outfile
+echo "this\nshoud\nbe\noverrided" > outfile
+chmod -w outfile
+chmod -r infile
+printf "\033[36m%s\033[m\n" '29. < infile sleep 3 | sleep 3 > outfile'
+printf "\033[33m%s\033[m\n" '# bash #'
+< infile sleep 3 | sleep 3 > outfile
+cat outfile
+echo ""
+echo "this\nshoud\nbe\noverrided" > outfile
+printf "\033[33m%s\033[m\n" '# pipex #'
+./pipex infile "sleep 3" "sleep 3" outfile
+cat outfile
+chmod +w outfile
+chmod +r infile
+
+echo ""
+echo ""
 
 
 
