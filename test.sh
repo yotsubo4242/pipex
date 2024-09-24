@@ -395,7 +395,7 @@ echo ""
 echo ""
 
 # test25 (second command is close relative path)
-echo "this\nshoud\nbe\noverrided" > outfile< infile a.out | a.out > outfile
+echo "this\nshoud\nbe\noverrided" > outfile
 printf "\033[36m%s\033[m\n" '25. < infile sleep 3 | /a.out > outfile'
 printf "\033[33m%s\033[m\n" '# bash #'
 < infile sleep 3 | /a.out > outfile
@@ -480,7 +480,5 @@ chmod +r infile
 
 echo ""
 echo ""
-
-
 
 rm a.out
