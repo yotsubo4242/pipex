@@ -6,7 +6,7 @@
 /*   By: yotsubo <y.otsubo.886@ms.saitama-u.ac.j    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 18:48:14 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/24 23:30:12 by yotsubo          ###   ########.fr       */
+/*   Updated: 2024/09/24 23:54:37 by yotsubo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char *passed_path(char *cmd_name)
 	char *res;
 
 	res = NULL;
-	if (!access(cmd_name, X_OK | F_OK))
+	if (!access(cmd_name, F_OK))
 		res = ft_strdup(cmd_name);
 	return (res);
 }
@@ -90,7 +90,7 @@ static char	*get_cmd_path(char *cmd_name, char **paths)
 		tmp = ft_strjoin(*paths, cmd_name);
 		if (!tmp)
 			return (NULL);
-		if (!access(tmp, X_OK | F_OK))
+		if (!access(tmp, F_OK))
 			return (tmp);
 		free(tmp);
 		paths++;
