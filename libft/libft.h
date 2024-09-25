@@ -22,7 +22,6 @@
 # include <limits.h>
 # include <stdarg.h>
 
-
 // for ft_printf
 # define UP 0
 # define LOW 1

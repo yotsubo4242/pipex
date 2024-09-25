@@ -3,35 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   search_cmd_path.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yotsubo <y.otsubo.886@ms.saitama-u.ac.j    +#+  +:+       +#+        */
+/*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 18:48:14 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/24 23:54:37 by yotsubo          ###   ########.fr       */
+/*   Updated: 2024/09/25 14:21:02 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "pipex.h"
-
-static int	get_paths_num(char **paths)
-{
-	int	paths_num;
-
-	paths_num = 0;
-	while (paths[paths_num])
-		paths_num++;
-	return (paths_num);
-}
-
-static char *passed_path(char *cmd_name)
-{
-	char *res;
-
-	res = NULL;
-	if (!access(cmd_name, F_OK))
-		res = ft_strdup(cmd_name);
-	return (res);
-}
 
 static char	**get_paths(char **environ)
 {
@@ -101,7 +81,7 @@ static char	*get_cmd_path(char *cmd_name, char **paths)
 char	*search_cmd_path(char *cmd_name, char **environ)
 {
 	char	**paths;
-	char 	*res;
+	char	*res;
 
 	if (ft_strchr(cmd_name, '/'))
 	{
@@ -111,7 +91,7 @@ char	*search_cmd_path(char *cmd_name, char **environ)
 		return (res);
 	}
 	paths = get_paths(environ);
-	if(!paths)
+	if (!paths)
 		return (NULL);
 	adjust_paths(paths);
 	if (!paths)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/25 14:22:01 by yuotsubo          #+#    #+#             */
+/*   Updated: 2024/09/25 14:22:01 by yuotsubo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PIPEX_H
 # define PIPEX_H
 
@@ -16,7 +28,7 @@
 # define CMD_CANT_EXEC_STS 126
 # define CMD_NOT_FOUND_STS 127
 
-typedef int t_bool;
+typedef int	t_bool;
 
 typedef struct s_data {
 	char	***cmds;
@@ -40,5 +52,9 @@ void	do_cmds(t_data *data, char **argv);
 void	check_fds(char **argv);
 
 void	output_error_message(char *detail, char *err_msg);
+
+char	*passed_path(char *cmd_name);
+
+int		get_paths_num(char **paths);
 
 #endif

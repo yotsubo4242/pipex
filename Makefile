@@ -2,8 +2,10 @@ NAME = pipex
 SRCS = ./src/main.c \
 		./src/data_init.c \
 		./src/search_cmd_path.c \
+		./src/search_cmd_path_utils.c \
 		./src/free_utils.c \
-		./src/do_cmds.c
+		./src/do_cmds.c \
+		./src/error_message.c
 OBJS = $(SRCS:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address

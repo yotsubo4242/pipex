@@ -3,49 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   do_cmds.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yotsubo <y.otsubo.886@ms.saitama-u.ac.j    +#+  +:+       +#+        */
+/*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 13:09:54 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/25 00:16:15 by yotsubo          ###   ########.fr       */
+/*   Updated: 2024/09/25 14:17:50 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include "libft.h"
 
-static char *make_error_message(char *detail, char *err_msg)
-{
-	char	*res;
-
-	if (!detail)
-	{
-		res = ft_strdup(err_msg);
-		return (res);
-	}
-	res = (char *)malloc(ft_strlen(detail) + ft_strlen(err_msg) + 4);
-	if (!res)
-		return (NULL);
-	ft_strlcpy(res, detail, ft_strlen(detail) + 1);
-	res[ft_strlen(detail)] = ':';
-	res[ft_strlen(detail) + 1] = ' ';
-	ft_strlcpy(&res[ft_strlen(detail) + 2], err_msg, ft_strlen(err_msg) + 1);
-	res[ft_strlen(detail) + ft_strlen(err_msg) + 2] = '\n';
-	res[ft_strlen(detail) + ft_strlen(err_msg) + 3] = '\0';
-	return (res);
-}
-
-void	output_error_message(char *detail, char *err_msg)
-{
-	if (!detail && !err_msg)
-		return ;
-	err_msg = make_error_message(detail, err_msg);
-	if (!err_msg)
-		return ;
-	write(STDOUT_FILENO, err_msg, ft_strlen(err_msg));
-	free(err_msg);
-}
-
-static int	err_return(int err_num, int *pipe_fd0_p, int *pipe_fd1_p, int *file_fd_p)
+static int	err_return(int err_num, int *pipe_fd0_p, \
+						int *pipe_fd1_p, int *file_fd_p)
 {
 	if (err_num > 0)
 		output_error_message(NULL, strerror(err_num));
@@ -124,7 +93,6 @@ void	do_cmds(t_data *data, char **argv)
 	pid_t	child_pids[2];
 	int		pipe_fds[2];
 
-	errno = 0;
 	if (pipe(pipe_fds) < 0)
 		exit(err_return(errno, NULL, NULL, NULL));
 	child_pids[0] = fork();
@@ -141,7 +109,8 @@ void	do_cmds(t_data *data, char **argv)
 	close(pipe_fds[1]);
 	waitpid(child_pids[0], NULL, 0);
 	waitpid(child_pids[1], &exit_status, 0);
-	if (WIFEXITED(exit_status)) {
+	if (WIFEXITED(exit_status))
+	{
 		free_data(data);
 		exit(WEXITSTATUS(exit_status));
 	}
