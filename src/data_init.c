@@ -13,6 +13,8 @@
 #include "pipex.h"
 #include "libft.h"
 
+// data_init()では、cmdsのみを設定し、cmd_pathsはdo_cmds()内で設定。
+
 static t_data	*err_return(t_data *data)
 {
 	if (data)
@@ -20,6 +22,8 @@ static t_data	*err_return(t_data *data)
 	return (NULL);
 }
 
+// cmdsのmallocをした後,
+// ft_split()を用いてcmds[0]には{"ls", "-a"}, cmds[1]には{"grep", "-v, ".c"}などのように格納. 
 static t_bool	get_cmds(char *argv[], t_data *data)
 {
 	data->cmds = (char ***)malloc(sizeof(char **) * 2);
@@ -38,6 +42,8 @@ static t_bool	get_cmds(char *argv[], t_data *data)
 	return (TRUE);
 }
 
+// 構造体自体や後に設定するcmd_pathsのmalloc.
+// get_cmds()にて, cmdsのmallocと設定を行う.
 t_data	*data_init(int argc, char *argv[])
 {
 	t_data	*data;
