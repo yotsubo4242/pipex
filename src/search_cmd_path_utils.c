@@ -6,12 +6,14 @@
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:18:40 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/25 14:21:26 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/10/14 11:36:32 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include "libft.h"
+
+// search_cmd_paths.cのヘルパー関数郡. 
 
 int	get_paths_num(char **paths)
 {
