@@ -6,12 +6,14 @@
 /*   By: yuotsubo <yuotsubo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 14:17:39 by yuotsubo          #+#    #+#             */
-/*   Updated: 2024/09/25 14:18:09 by yuotsubo         ###   ########.fr       */
+/*   Updated: 2024/10/14 11:34:54 by yuotsubo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include "libft.h"
+
+// bashに寄せたエラーメッセージの作成. 
 
 static char	*make_error_message(char *detail, char *err_msg)
 {
